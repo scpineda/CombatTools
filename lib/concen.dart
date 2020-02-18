@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,7 +16,9 @@ class ConcenPage extends StatelessWidget{
             children: [
               titleSection,
               instructions(),
-              new TextFormField()
+              enterButton(),
+              result(),
+              percentageField()
             ],
           ),
         )
@@ -25,9 +29,51 @@ class ConcenPage extends StatelessWidget{
 Widget instructions()
 {
   return Text(
-    'Enter damage done by single hit. Remember that you must make one CON Save per single attack.',
-    textAlign: TextAlign.center,
-    style: TextStyle(fontWeight: FontWeight.bold)
+      'Enter damage done by single hit.',
+      textAlign: TextAlign.center,
+      style: TextStyle(fontWeight: FontWeight.bold)
   );
 }
 
+Widget result()
+{
+  return Text(
+      'To keep Concentration, you must roll at least a...',
+      textAlign: TextAlign.center,
+      style: TextStyle(fontWeight: FontWeight.bold)
+  );
+}
+
+Widget enterButton() {
+  return TextField(
+    decoration: new InputDecoration(labelText: "Enter your number"),
+    keyboardType: TextInputType.number,
+    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly] ,
+    onChanged: (text) {
+
+    },// Only numbers can be entered
+  );
+}
+
+Widget percentageField() {
+  return Container(
+    margin: const EdgeInsets.all(10.0),
+    color: Colors.white,
+    width: 108.0,
+    height: 108.0,
+    child: Text('NaN'
+    ),
+  );
+}
+
+int conValue(Text text)
+{
+  // Grab the damage value given
+  int damage = int.parse(text.toString());
+
+  if(damage > 10)
+    return (damage / 2).floor();
+
+  else
+    return 10;
+}
