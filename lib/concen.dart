@@ -46,7 +46,9 @@ Widget result()
 
 Widget enterButton() {
   return TextField(
-    decoration: new InputDecoration(labelText: "Enter your number"),
+    decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: "Enter your number"),
     keyboardType: TextInputType.number,
     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly] ,
     onChanged: (text) {
