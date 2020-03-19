@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/concen.dart';
+import 'package:flutter_app/hit.dart';
+import 'package:flutter_app/save.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/dice.dart';
 
 // Run the app. You can use => for single line
 void main() {
@@ -18,6 +21,9 @@ void main() {
       '/': (context) => StartScreen(),
       // When navigating to the "/second" route, build the SecondScreen widget.
       '/second': (context) => ConcenPage(),
+      '/third': (context) => HitPage(),
+      '/fourth': (context) => SavePage(),
+      '/fifth': (context) => DiceRoller(),
     },
   ));
 }
@@ -33,8 +39,7 @@ class StartScreen extends StatelessWidget {
             children: [
               Flexible(flex: 1, child: titleSection),
               Flexible(flex: 1, child: buttonSection1(context)),
-              Flexible(flex: 1, child: buttonSection2(context)),
-              Flexible(flex: 1, child: buttonSection3(context))
+              Flexible(flex: 1, child: buttonSection2(context))
             ],
           ),
         ));
@@ -90,7 +95,24 @@ Container _buildButtonColumn(Color color, IconData iconD, String labelL, BuildCo
             tooltip: labelL,
             color: color,
             onPressed: () {
-              Navigator.pushNamed(context, '/second');
+              switch(labelL)
+              {
+                case 'Hit':
+                  Navigator.pushNamed(context, '/third');
+                  break;
+
+                case 'Con.':
+                    Navigator.pushNamed(context, '/second');
+                  break;
+
+                case 'Save':
+                  Navigator.pushNamed(context, '/fourth');
+                  break;
+
+                case 'Dice Roller':
+                  Navigator.pushNamed(context, '/fifth');
+                  break;
+              }
             }),
         Text(labelL, style: TextStyle(
             color: color,
@@ -120,20 +142,8 @@ Widget buttonSection2(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButtonColumn(Colors.blue, Icons.call, 'Mon-Save', context),
+        _buildButtonColumn(Colors.blue, Icons.call, 'Dice Roller', context),
         _buildButtonColumn(Colors.purple, Icons.account_box, 'Con.', context),
-      ],
-    ),
-  );
-}
-
-Widget buttonSection3(BuildContext context) {
-  return Container(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildButtonColumn(Colors.yellow, Icons.casino, 'Dice Roller', context),
       ],
     ),
   );
