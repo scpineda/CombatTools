@@ -1,5 +1,4 @@
 // Combat Tools
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_app/hit.dart';
 import 'package:flutter_app/save.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/dice.dart';
+import 'package:flutter_app/stats.dart';
 
 // Run the app. You can use => for single line
 void main() {
@@ -24,6 +24,7 @@ void main() {
       '/third': (context) => HitPage(),
       '/fourth': (context) => SavePage(),
       '/fifth': (context) => DiceRoller(),
+      '/sixth': (context) => StatsRoller()
     },
   ));
 }
@@ -39,7 +40,8 @@ class StartScreen extends StatelessWidget {
             children: [
               Flexible(flex: 1, child: titleSection),
               Flexible(flex: 1, child: buttonSection1(context)),
-              Flexible(flex: 1, child: buttonSection2(context))
+              Flexible(flex: 1, child: buttonSection2(context)),
+              Flexible(flex: 1, child: buttonSection3(context))
             ],
           ),
         ));
@@ -54,11 +56,11 @@ Widget titleSection = Container(
       Expanded(
         /*1*/
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /*2*/
             Container(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(8),
               child: Text(
                 'Combat Tools',
                 style: TextStyle(
@@ -74,7 +76,8 @@ Widget titleSection = Container(
   ),
 );
 
-Container _buildButtonColumn(Color color, IconData iconD, String labelL, BuildContext context) {
+Container _buildButtonColumn(
+    Color color, String imagePath, String labelL, BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(10.0),
     width: 160.0,
@@ -85,41 +88,42 @@ Container _buildButtonColumn(Color color, IconData iconD, String labelL, BuildCo
         color: color,
       ),
     ),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-            icon: Icon(iconD),
-            iconSize: 45.0,
-            tooltip: labelL,
-            color: color,
-            onPressed: () {
-              switch(labelL)
-              {
-                case 'Hit':
-                  Navigator.pushNamed(context, '/third');
-                  break;
+    child: FlatButton(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(imagePath, height: 50.0, width: 50.0),
+            Text(
+              labelL,
+              style: TextStyle(color: color, fontSize: 30.0),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
+        onPressed: () {
+          switch (labelL) {
+            case 'Hit':
+              Navigator.pushNamed(context, '/third');
+              break;
 
-                case 'Con.':
-                    Navigator.pushNamed(context, '/second');
-                  break;
+            case 'Con.':
+              Navigator.pushNamed(context, '/second');
+              break;
 
-                case 'Save':
-                  Navigator.pushNamed(context, '/fourth');
-                  break;
+            case 'Save':
+              Navigator.pushNamed(context, '/fourth');
+              break;
 
-                case 'Dice Roller':
-                  Navigator.pushNamed(context, '/fifth');
-                  break;
-              }
-            }),
-        Text(labelL, style: TextStyle(
-            color: color,
-            fontSize: 30.0)
-        )
-      ],
-    ),
+            case 'Dice Roller':
+              Navigator.pushNamed(context, '/fifth');
+              break;
+
+            case 'Stats Roller':
+              Navigator.pushNamed(context, '/sixth');
+              break;
+          }
+        }),
   );
 }
 
@@ -129,8 +133,10 @@ Widget buttonSection1(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButtonColumn(Colors.green, Icons.add_alert, 'Hit', context),
-        _buildButtonColumn(Colors.red, Icons.face, 'Save', context),
+        _buildButtonColumn(
+            Colors.green, 'assets/images/hit.png', 'Hit', context),
+        _buildButtonColumn(
+            Colors.red, 'assets/images/save.png', 'Save', context),
       ],
     ),
   );
@@ -142,10 +148,24 @@ Widget buttonSection2(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButtonColumn(Colors.blue, Icons.call, 'Dice Roller', context),
-        _buildButtonColumn(Colors.purple, Icons.account_box, 'Con.', context),
+        _buildButtonColumn(
+            Colors.blue, 'assets/images/dice.png', 'Dice Roller', context),
+        _buildButtonColumn(
+            Colors.purple, 'assets/images/concen.png', 'Con.', context),
       ],
     ),
   );
 }
 
+Widget buttonSection3(BuildContext context) {
+  return Container(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildButtonColumn(
+            Colors.yellow, 'assets/images/stats.png', 'Stats Roller', context)
+      ],
+    ),
+  );
+}
